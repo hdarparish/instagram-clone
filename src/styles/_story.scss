@@ -1,0 +1,19 @@
+.story-wrapper {
+  margin: 0.5rem;
+  cursor: pointer;
+  img {
+    height: 3.5rem;
+    width: 3.5rem;
+    border-radius: 2rem;
+    border-style: solid;
+    border-color: #ea5a4f;
+  }
+  p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: x-small;
+    width: 3.5rem;
+    text-align: center;
+  }
+}
