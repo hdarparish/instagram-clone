@@ -3,11 +3,17 @@
   padding: 0;
   box-sizing: border-box;
 }
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans&display=swap");
+p {
+  font-family: "Open Sans", sans-serif;
+}
 
 @import "./header";
 @import "./feed";
 @import "./stories";
 @import "./story";
+@import "./posts";
+@import "./post";
 
 /* 
 @import "./post";

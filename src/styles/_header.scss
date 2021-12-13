@@ -1,7 +1,11 @@
 .header-wrapper {
   margin: auto;
-  margin-top: 1rem;
+  padding-top: 1rem;
   border-bottom: 1.5px solid rgb(219, 217, 217);
+  position: sticky;
+  z-index: 5;
+  top: 0px;
+  background-color: #ffffff;
 
   .header {
     display: flex;
@@ -51,7 +55,6 @@
     margin: 0px 10px;
     svg {
       margin: 0px 5px;
-      scale: (1.5);
       height: 1.5rem;
       width: 1.5rem;
       cursor: pointer;
