@@ -2,12 +2,8 @@
 import Logo from "../img/instagram-logo.png";
 import Avatar from "../img/img_avatar.png";
 //icons
-import {
-  HiHome,
-  HiOutlinePaperAirplane,
-  HiOutlineHeart,
-  HiSearch,
-} from "react-icons/hi";
+import { HiHome, HiOutlinePaperAirplane, HiSearch } from "react-icons/hi";
+import { AiOutlineHeart } from "react-icons/ai";
 import { BsPlusSquare } from "react-icons/bs";
 
 function Header() {
@@ -27,7 +23,7 @@ function Header() {
           <HiHome />
           <HiOutlinePaperAirplane />
           <BsPlusSquare />
-          <HiOutlineHeart />
+          <AiOutlineHeart />
           <img src={Avatar} alt="user profile" />
         </div>
       </div>

@@ -4,6 +4,8 @@
   margin: auto;
   overflow-x: scroll;
   border: 1.5px solid rgb(219, 217, 217);
+  scrollbar-width: thin;
+  background-color: #ffffff;
   &::-webkit-scrollbar {
     width: 5px;
     height: 10px;

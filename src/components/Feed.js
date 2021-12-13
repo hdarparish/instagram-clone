@@ -1,10 +1,15 @@
+import Posts from "./Posts";
 import Stories from "./Stories";
 
 function Feed() {
   return (
     <div className="feed-wrapper">
       {/* Stories */}
-      <Stories />
+      <div>
+        <Stories />
+        <Posts />
+      </div>
+
       {/* posts */}
       {/* Suggestions */}
     </div>
