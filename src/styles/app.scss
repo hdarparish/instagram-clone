@@ -3,9 +3,13 @@
   padding: 0;
   box-sizing: border-box;
 }
-@import url("https://fonts.googleapis.com/css2?family=Open+Sans&display=swap");
+.App {
+  background-color: #fafafa;
+}
+
 p {
-  font-family: "Open Sans", sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
+  letter-spacing: 0.5px;
 }
 
 @import "./header";
@@ -14,6 +18,7 @@ p {
 @import "./story";
 @import "./posts";
 @import "./post";
+@import "./suggestions";
 
 /* 
 @import "./post";

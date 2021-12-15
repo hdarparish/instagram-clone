@@ -1,0 +1,77 @@
+.suggestions-wrapper {
+  flex-direction: column;
+}
+
+.suggestions-profile-wrapper {
+  display: flex;
+  align-items: center;
+
+  img {
+    height: 4rem;
+    width: 4rem;
+    border-radius: 2rem;
+    margin-right: 0.1rem;
+  }
+  p {
+    flex: 1;
+    font-size: small;
+    margin-left: 1rem;
+    font-weight: 600;
+  }
+  button {
+    cursor: pointer;
+    border-style: none;
+    color: #0095f6;
+    background-color: #ffffff;
+    font-weight: 600;
+    font-size: 0.7rem;
+  }
+}
+
+.suggestions-text {
+  margin: 1rem 0rem 1rem 0rem;
+  color: grey;
+  font-size: small;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.suggestions-user-wrapper {
+  display: flex;
+  align-items: center;
+  margin: 1rem 0rem 1rem 1rem;
+
+  img {
+    height: 2rem;
+    width: 2rem;
+    border-radius: 2rem;
+  }
+
+  button {
+    cursor: pointer;
+    border-style: none;
+    color: #0095f6;
+    background-color: #ffffff;
+    font-weight: 600;
+    font-size: 0.7rem;
+  }
+}
+
+.suggestions-details {
+  flex: 1;
+  margin-left: 1rem;
+}
+
+.user-identity {
+  font-size: 0.7rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+.user-company {
+  font-size: 0.65rem;
+  color: #8e8e8e;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 13rem;
+  overflow: hidden;
+}
