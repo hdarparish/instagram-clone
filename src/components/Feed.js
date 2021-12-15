@@ -1,18 +1,22 @@
 import Posts from "./Posts";
 import Stories from "./Stories";
+import Suggestions from "./Suggestions";
 
 function Feed() {
   return (
-    <div className="feed-wrapper">
-      {/* Stories */}
-      <div>
-        <Stories />
+    <main className="feed-wrapper">
+      <section className="stories-posts-wrapper">
+        <div>
+          <Stories />
+        </div>
         <Posts />
-      </div>
-
-      {/* posts */}
-      {/* Suggestions */}
-    </div>
+      </section>
+      <section>
+        <div className="feed-suggestions-wrapper">
+          <Suggestions />
+        </div>
+      </section>
+    </main>
   );
 }
 

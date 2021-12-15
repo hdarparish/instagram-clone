@@ -1,6 +1,23 @@
 .feed-wrapper {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  //justify-content: space-between;
   padding: 1rem 0rem;
-  background-color: #fafafa;
+  margin: auto;
+  max-width: 900px;
+  @media (max-width: 880px) {
+    justify-content: center;
+  }
+}
+.feed-posts-wrapper {
+  //flex-direction: column;
+}
+.feed-suggestions-wrapper {
+  position: fixed;
+  height: 100%;
+  margin: 3rem 0rem 3rem 3rem;
+  width: 20rem;
+  @media (max-width: 880px) {
+    display: none;
+  }
 }
