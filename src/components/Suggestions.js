@@ -13,22 +13,22 @@ function Suggestions() {
     setUserSuggestions(users);
   }, []);
   return (
-    <div className="suggestions-wrapper">
-      <div className="suggestions-profile-wrapper">
+    <div className="suggestions">
+      <div className="suggestions-profile">
         <img src={Avatar} alt="profile" />
         <p>hdarparish</p>
         <button>Logout</button>
       </div>
       <div>
-        <p className="suggestions-text">Suggestions For You</p>
+        <p className="suggestions__text-grey">Suggestions For You</p>
         {userSuggestions.map((user) => (
-          <div className="suggestions-user-wrapper" key={user.id}>
+          <div className="suggestions-user" key={user.id}>
             <div>
               <img src={Avatar} alt="profile" />
             </div>
-            <div className="suggestions-details">
-              <p className="user-identity">{user.username}</p>
-              <p className="user-company">{user.company.name}</p>
+            <div className="user-details">
+              <p className="user-details__username">{user.username}</p>
+              <p className="user-details__company">{user.company.name}</p>
             </div>
 
             <button>Follow</button>

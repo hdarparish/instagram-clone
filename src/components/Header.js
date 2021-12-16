@@ -8,13 +8,13 @@ import { BsPlusSquare } from "react-icons/bs";
 
 function Header() {
   return (
-    <div className="header-wrapper">
-      <div className="header">
-        <div className="header-logo">
+    <div className="header">
+      <div className="header-inner">
+        <div className="logo">
           <img src={Logo} alt="website logo" />
         </div>
         <div className="header-input">
-          <div className="search-icon">
+          <div className="header-input__icon">
             <HiSearch />
           </div>
           <input type="text" placeholder="Search" />

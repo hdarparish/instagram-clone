@@ -15,7 +15,7 @@ function Stories() {
   }, []);
 
   return (
-    <div className="stories-wrapper">
+    <div className="stories">
       {userStories.length > 0 &&
         userStories.map((user) => (
           <Story username={user.username} profileImage={Avatar} key={user.id} />

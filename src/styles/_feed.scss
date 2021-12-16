@@ -1,4 +1,4 @@
-.feed-wrapper {
+.feed {
   display: flex;
   flex-direction: row;
   //justify-content: space-between;
@@ -9,10 +9,8 @@
     justify-content: center;
   }
 }
-.feed-posts-wrapper {
-  //flex-direction: column;
-}
-.feed-suggestions-wrapper {
+
+.feed-suggestions {
   position: fixed;
   height: 100%;
   margin: 3rem 0rem 3rem 3rem;

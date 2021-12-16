@@ -15,7 +15,7 @@ function Post({ profileImage, username, imagePosted, description }) {
   };
 
   return (
-    <div className="post-container">
+    <div className="post">
       <div className="post-header">
         <img src={profileImage} alt="profile" />
         <p>{username}</p>

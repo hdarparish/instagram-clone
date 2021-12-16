@@ -26,7 +26,7 @@ const userPosts = [
 
 function Posts() {
   return (
-    <div className="posts-wrapper">
+    <div className="posts">
       {userPosts.map((post, index) => (
         <Post
           key={index}

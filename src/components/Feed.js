@@ -4,15 +4,15 @@ import Suggestions from "./Suggestions";
 
 function Feed() {
   return (
-    <main className="feed-wrapper">
-      <section className="stories-posts-wrapper">
+    <main className="feed">
+      <section>
         <div>
           <Stories />
         </div>
         <Posts />
       </section>
       <section>
-        <div className="feed-suggestions-wrapper">
+        <div className="feed-suggestions">
           <Suggestions />
         </div>
       </section>

@@ -1,4 +1,4 @@
-.header-wrapper {
+.header {
   margin: auto;
   padding-top: 1rem;
   border-bottom: 1.5px solid rgb(219, 217, 217);
@@ -13,7 +13,7 @@
     }
   }
 }
-.header {
+.header-inner {
   display: flex;
   justify-content: space-between;
   margin: auto;
@@ -21,7 +21,7 @@
   margin-bottom: 0.3rem;
 }
 /* Logo section */
-.header-logo {
+.logo {
   img {
     cursor: pointer;
   }
@@ -44,7 +44,7 @@
     border-radius: 0.375rem;
   }
 }
-.search-icon {
+.header-input__icon {
   position: absolute;
   top: 0px;
   bottom: 0px;

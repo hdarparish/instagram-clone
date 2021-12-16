@@ -1,4 +1,4 @@
-.post-container {
+.post {
   width: 100%;
   margin-bottom: 2rem;
   border: 1.5px solid rgb(219, 217, 217);
@@ -23,7 +23,7 @@
   p {
     flex: 1;
     font-size: small;
-    font-weight: 600;
+    font-weight: 500;
     margin-left: 1rem;
   }
 }
@@ -42,7 +42,7 @@
 .post-comments {
   padding: 0.5rem;
   span {
-    font-weight: 600;
+    font-weight: 500;
     font-size: small;
   }
   p {
