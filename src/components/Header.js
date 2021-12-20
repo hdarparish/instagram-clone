@@ -6,7 +6,18 @@ import { HiHome, HiOutlinePaperAirplane, HiSearch } from "react-icons/hi";
 import { AiOutlineHeart } from "react-icons/ai";
 import { BsPlusSquare } from "react-icons/bs";
 
+import { Auth } from "aws-amplify";
+
+import { useState, useEffect } from "react";
+
 function Header() {
+  const [user, setUser] = useState();
+
+  useEffect(() => {
+    Auth.currentAuthenticatedUser()
+      .then((user) => setUser(user))
+      .catch(() => console.log("Not signed in"));
+  }, []);
   return (
     <div className="header">
       <div className="header-inner">
@@ -20,11 +31,25 @@ function Header() {
           <input type="text" placeholder="Search" />
         </div>
         <div className="header-icons">
-          <HiHome />
-          <HiOutlinePaperAirplane />
-          <BsPlusSquare />
-          <AiOutlineHeart />
-          <img src={Avatar} alt="user profile" />
+          {user ? (
+            <>
+              <HiHome />
+              <HiOutlinePaperAirplane />
+              <BsPlusSquare />
+              <AiOutlineHeart />
+              <img
+                src={user?.attributes?.picture}
+                onClick={() => Auth.signOut()}
+                alt="user profile"
+              />
+            </>
+          ) : (
+            <button
+              onClick={() => Auth.federatedSignIn({ provider: "Google" })}
+            >
+              Sign in
+            </button>
+          )}
         </div>
       </div>
     </div>
