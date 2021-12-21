@@ -1,23 +1,29 @@
+import { useState, useEffect } from "react";
 //logo
 import Logo from "../img/instagram-logo.png";
-import Avatar from "../img/img_avatar.png";
 //icons
 import { HiHome, HiOutlinePaperAirplane, HiSearch } from "react-icons/hi";
 import { AiOutlineHeart } from "react-icons/ai";
 import { BsPlusSquare } from "react-icons/bs";
-
-import { Auth } from "aws-amplify";
-
-import { useState, useEffect } from "react";
+//aws
+import { Auth, Storage } from "aws-amplify";
+//redux
+import { useDispatch } from "react-redux";
 
 function Header() {
-  const [user, setUser] = useState();
+  const [user, setUser] = useState(null);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    Auth.currentAuthenticatedUser()
+    Auth.currentSession()
       .then((user) => setUser(user))
       .catch(() => console.log("Not signed in"));
   }, []);
+
+  const modal = () => {
+    dispatch({ type: "MODAL_STATE" });
+  };
+
   return (
     <div className="header">
       <div className="header-inner">
@@ -35,10 +41,10 @@ function Header() {
             <>
               <HiHome />
               <HiOutlinePaperAirplane />
-              <BsPlusSquare />
+              <BsPlusSquare onClick={modal} />
               <AiOutlineHeart />
               <img
-                src={user?.attributes?.picture}
+                src={user?.idToken?.payload?.picture}
                 onClick={() => Auth.signOut()}
                 alt="user profile"
               />

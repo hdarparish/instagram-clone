@@ -12,5 +12,11 @@ export type AmplifyDependentResourcesAttributes = {
             "AppClientID": "string",
             "CreatedSNSRole": "string"
         }
+    },
+    "storage": {
+        "InstagramPostsStorage": {
+            "BucketName": "string",
+            "Region": "string"
+        }
     }
 }

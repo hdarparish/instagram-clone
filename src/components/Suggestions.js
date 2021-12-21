@@ -6,11 +6,11 @@ import { Auth } from "aws-amplify";
 function Suggestions() {
   const [userSuggestions, setUserSuggestions] = useState([]);
 
-  const [user, setUser] = useState();
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    Auth.currentAuthenticatedUser()
-      .then((user) => setUser({ user }))
+    Auth.currentSession()
+      .then((user) => setUser(user))
       .catch(() => console.log("Not signed in"));
   }, []);
 
@@ -25,8 +25,8 @@ function Suggestions() {
   return (
     <div className="suggestions">
       <div className="suggestions-profile">
-        <img src={user?.user?.attributes?.picture} alt="profile" />
-        <p>{user?.user?.attributes?.name.split(" ").join(".")}</p>
+        <img src={user?.idToken?.payload?.picture} alt="profile" />
+        <p>{user?.idToken?.payload?.name.split(" ").join(".")}</p>
         <button onClick={() => Auth.signOut()}>Logout</button>
       </div>
       <div>

@@ -30,5 +30,12 @@
         ]
       }
     }
+  },
+  "storage": {
+    "InstagramPostsStorage": {
+      "service": "S3",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": []
+    }
   }
 }
