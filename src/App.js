@@ -1,6 +1,7 @@
 //import styles
 import Feed from "./components/Feed";
 import Header from "./components/Header";
+import Modal from "./components/Modal";
 import "./styles/app.scss";
 
 function App() {
@@ -8,6 +9,7 @@ function App() {
     <div className="App">
       <Header />
       <Feed />
+      <Modal />
     </div>
   );
 }

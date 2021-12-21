@@ -5,12 +5,26 @@ import reportWebVitals from "./reportWebVitals";
 //aws
 import Amplify from "aws-amplify";
 import config from "./aws-exports";
+//redux
+import { Provider } from "react-redux";
+import modalsStore from "./reducers/modalReducer";
+import { createStore, applyMiddleware, compose } from "redux";
+import thunk from "redux-thunk";
+
+const composeEnchancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const store = createStore(
+  modalsStore,
+  composeEnchancer(applyMiddleware(thunk))
+);
 
 Amplify.configure(config);
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById("root")
 );

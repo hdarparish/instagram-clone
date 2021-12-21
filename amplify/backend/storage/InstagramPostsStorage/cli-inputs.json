@@ -1,0 +1,15 @@
+{
+  "resourceName": "InstagramPostsStorage",
+  "policyUUID": "dbd6d072",
+  "bucketName": "instagramclone2415d712d3ef46d28d66b9515b253287",
+  "storageAccess": "authAndGuest",
+  "guestAccess": [
+    "READ"
+  ],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ"
+  ],
+  "triggerFunction": "NONE",
+  "groupAccess": {}
+}
