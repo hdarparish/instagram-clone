@@ -7,6 +7,9 @@
   img {
     width: inherit;
     object-fit: cover;
+    max-height: 40rem;
+    border-top: 0.5px solid rgb(230, 228, 228);
+    border-bottom: 0.5px solid rgb(230, 228, 228);
   }
 }
 
@@ -23,7 +26,7 @@
   p {
     flex: 1;
     font-size: small;
-    font-weight: 500;
+    font-weight: 600;
     margin-left: 1rem;
   }
 }
@@ -41,13 +44,32 @@
 .post-description,
 .post-comments {
   padding: 0.5rem;
+  div {
+    margin: 0.1rem 0rem;
+  }
   span {
-    font-weight: 500;
+    font-weight: 600;
     font-size: small;
   }
   p {
     font-size: smaller;
   }
+}
+
+.post-comments {
+  max-height: 4rem;
+  overflow-y: scroll;
+  scrollbar-width: thin;
+  &::-webkit-scrollbar {
+    width: 5px;
+    height: 10px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #aaa;
+  }
+}
+
+.comment {
 }
 
 .post-form {

@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "serviceConfiguration": {
+    "apiName": "instagramclone",
+    "serviceName": "AppSync",
+    "gqlSchemaPath": "C:\\Users\\Hossein\\Fullstack\\instagram-clone\\amplify\\backend\\api\\instagramclone\\schema.graphql",
+    "defaultAuthType": {
+      "mode": "AMAZON_COGNITO_USER_POOLS",
+      "cognitoUserPoolId": "authinstagramclone207ccc88"
+    },
+    "additionalAuthTypes": [
+      {
+        "mode": "API_KEY",
+        "expirationTime": 365,
+        "apiKeyExpirationDate": "2022-12-25T01:36:22.537Z",
+        "keyDescription": "public"
+      }
+    ]
+  }
+}

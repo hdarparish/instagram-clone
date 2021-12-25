@@ -1,0 +1,33 @@
+type Post
+  @model
+  @auth(
+    rules: [
+      { allow: owner }
+      { allow: private }
+      { allow: public, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  username: String!
+  caption: String
+  profileImage: String!
+  image: String!
+  comments: [Comment] @connection(keyName: "byPost", fields: ["id"])
+  likes: String
+}
+type Comment
+  @model
+  @auth(
+    rules: [
+      { allow: owner }
+      { allow: private }
+      { allow: public, operations: [read] }
+    ]
+  )
+  @key(name: "byPost", fields: ["postID", "content"]) {
+  id: ID!
+  postID: ID!
+  post: Post @connection(fields: ["postID"])
+  username: String!
+  content: String!
+}

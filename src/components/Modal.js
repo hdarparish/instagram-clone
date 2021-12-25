@@ -1,28 +1,76 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 //modal
 import ReactModal from "react-modal";
 //redux
 import { useSelector, useDispatch } from "react-redux";
 //icons
 import { AiOutlineCamera } from "react-icons/ai";
+//aws
+import { Storage, API, Auth } from "aws-amplify";
+import { createPost } from "../graphql/mutations";
+//uuid
+import { v4 as uuidv4 } from "uuid";
 
 ReactModal.setAppElement("#root");
 
 function Modal() {
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [viewSelectedFile, setViewSelectedFile] = useState(null);
+  const [fileName, setFileName] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState(null);
+
   const fileRef = useRef(null);
   const captionRef = useRef(null);
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [loading, setLoading] = useState(false);
+
   const dispatch = useDispatch();
   const modalState = useSelector((state) => state.isVisible);
 
+  useEffect(() => {
+    Auth.currentSession()
+      .then((user) => setUser(user))
+      .catch(() => console.log("Not signed in"));
+  }, []);
+
+  //
   const closeModal = () => {
     dispatch({ type: "MODAL_STATE" });
     setSelectedFile(null);
+    setViewSelectedFile(null);
   };
 
-  /*     const uploadPicture = async () => {
-    const result = await Storage.put("first-post", Logo, {
+  const uploadPicture = async () => {
+    //upload the image to s3
+    let imageRef = await Storage.put(fileName, selectedFile);
+    //get the image url
+    // const imageURL = await Storage.get(fileName);
+
+    //create a post
+    const product = {
+      username: user?.idToken?.payload?.name.split(" ").join("."),
+      caption: captionRef.current.value,
+      profileImage: user?.idToken?.payload?.picture,
+      image: imageRef.key,
+    };
+    //upload the post
+    await API.graphql({
+      query: createPost,
+      variables: { input: product },
+    });
+
+    closeModal();
+
+    /*     await API.graphql({
+      query: updateProduct,
+      variables: {
+        input: { id: result.data.createProduct.id, image: imageRef.key },
+      },
+    }); */
+
+    /*     const fileName = "product-image-1";
+    await Storage.put(fileName);
+ */
+    /*  const result = await Storage.put("first-post", Logo, {
       contentType: "image/png",
       completeCallback: (event) => {
         console.log(`Successfully uploaded ${event.key}`);
@@ -34,17 +82,27 @@ function Modal() {
         console.error("Unexpected error while uploading", err);
       },
     });
-    console.log(result);
-  }; */
+    console.log(result); */
+  };
 
-  const addPicture = (e) => {
+  const addPicture = async (e) => {
     const reader = new FileReader();
     if (e.target.files[0]) {
       reader.readAsDataURL(e.target.files[0]);
     }
     reader.onload = (readerEvent) => {
-      setSelectedFile(readerEvent.target.result);
+      setViewSelectedFile(readerEvent.target.result);
+      setFileName(`${uuidv4()}.${e.target.files[0].name.split(".").pop()}`);
+      setSelectedFile(e.target.files[0]);
     };
+
+    // setSelectedFile(e.target.files[0]);
+    /* 
+    await Storage.put(file.name, file);
+
+    const s3Image = await Storage.get(file.name);
+    console.log(s3Image); */
+    console.log(captionRef.current.value);
   };
 
   return (
@@ -56,10 +114,10 @@ function Modal() {
         shouldCloseOnOverlayClick={true}
         className="modal"
       >
-        {selectedFile ? (
+        {viewSelectedFile ? (
           <img
-            src={selectedFile}
-            onClick={() => setSelectedFile(null)}
+            src={viewSelectedFile}
+            onClick={() => setViewSelectedFile(null)}
             className="modal__upload-image"
             alt="upload-post"
           />
@@ -83,7 +141,11 @@ function Modal() {
           className="modal__input-caption"
           ref={captionRef}
         />
-        <button disabled={!selectedFile} className="modal__upload-button">
+        <button
+          disabled={!viewSelectedFile}
+          className="modal__upload-button"
+          onClick={uploadPicture}
+        >
           Upload
         </button>
       </ReactModal>
