@@ -1,6 +1,9 @@
 import Post from "./Post";
 import Avatar from "../img/img_avatar.png";
-import { useEffect } from "react/cjs/react.development";
+import { useEffect, useState } from "react";
+//aws
+import { API, Storage } from "aws-amplify";
+import * as queries from "../graphql/queries";
 
 const userPosts = [
   {
@@ -25,17 +28,46 @@ const userPosts = [
 ];
 
 function Posts() {
+  const [postsList, setPostsList] = useState(null);
+  const db = Storage.get();
+
+  useEffect(() => {
+    (async () => {
+      const { data } = await API.graphql({
+        query: queries.listPosts,
+        authMode: "API_KEY",
+      });
+      const posts = await Promise.all(
+        data.listPosts.items.map(async (post) => {
+          const image = await Storage.get(post.image);
+          post.s3Image = image;
+          return post;
+        })
+      );
+
+      //sort the array of posts by creation datetime
+      setPostsList(
+        posts.sort(
+          (firstPost, secondPost) =>
+            new Date(secondPost.createdAt) - new Date(firstPost.createdAt)
+        )
+      );
+    })();
+  }, []);
+  console.log(postsList);
   return (
     <div className="posts">
-      {userPosts.map((post, index) => (
-        <Post
-          key={index}
-          profileImage={post.profileImage}
-          username={post.username}
-          description={post.description}
-          imagePosted={post.imagePosted}
-        />
-      ))}
+      {postsList &&
+        postsList.map((post) => (
+          <Post
+            key={post.id}
+            id={post.id}
+            profileImage={post.profileImage}
+            username={post.username}
+            caption={post.caption}
+            imagePosted={post.s3Image}
+          />
+        ))}
     </div>
   );
 }

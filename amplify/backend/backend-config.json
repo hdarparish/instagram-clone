@@ -37,5 +37,31 @@
       "providerPlugin": "awscloudformation",
       "dependsOn": []
     }
+  },
+  "api": {
+    "instagramclone": {
+      "service": "AppSync",
+      "providerPlugin": "awscloudformation",
+      "output": {
+        "authConfig": {
+          "defaultAuthentication": {
+            "authenticationType": "AMAZON_COGNITO_USER_POOLS",
+            "userPoolConfig": {
+              "userPoolId": "authinstagramclone207ccc88"
+            }
+          },
+          "additionalAuthenticationProviders": [
+            {
+              "authenticationType": "API_KEY",
+              "apiKeyConfig": {
+                "apiKeyExpirationDays": 365,
+                "apiKeyExpirationDate": "2022-12-25T01:36:22.537Z",
+                "description": "public"
+              }
+            }
+          ]
+        }
+      }
+    }
   }
 }
