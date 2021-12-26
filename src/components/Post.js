@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 //icons
-import { AiOutlineHeart, AiOutlineComment } from "react-icons/ai";
+import { AiOutlineHeart, AiFillHeart, AiOutlineComment } from "react-icons/ai";
 import {
   HiOutlinePaperAirplane,
   HiOutlineEmojiHappy,
@@ -8,7 +8,7 @@ import {
 } from "react-icons/hi";
 //aws
 import { Auth, API } from "aws-amplify";
-import { createComment } from "../graphql/mutations";
+import { createComment, createLike, deleteLike } from "../graphql/mutations";
 import * as queries from "../graphql/queries";
 
 function Post({ id, profileImage, username, imagePosted, caption }) {
@@ -52,6 +52,60 @@ function Post({ id, profileImage, username, imagePosted, caption }) {
     })();
   }, []);
 
+  //get the likes for the post
+  useEffect(() => {
+    (async () => {
+      const { data } = await API.graphql({
+        query: queries.listLikes,
+        authMode: "API_KEY",
+      });
+      //filter the comments by postID
+      setLikes(data.listLikes.items.filter((like) => like.postID === id));
+    })();
+  }, [comments]);
+
+  //check if the user has liked the post
+  useEffect(() => {
+    setHasLiked(
+      likes.findIndex(
+        (like) =>
+          like.cognitoUsername === user?.idToken?.payload["cognito:username"] &&
+          like.postID === id
+      ) !== -1
+    );
+  }, [likes]);
+
+  const likePost = async () => {
+    //if the user has already liked the post, then unlike
+    if (hasLiked) {
+      //get the index of the user like
+      const index = likes.findIndex(
+        (like) =>
+          like.cognitoUsername === user.idToken.payload["cognito:username"] &&
+          like.postID === id
+      );
+      //delete the like
+      await API.graphql({
+        query: deleteLike,
+        variables: {
+          input: {
+            id: likes[index].id,
+          },
+        },
+      });
+    } else {
+      const like = {
+        postID: id,
+        username: user.idToken.payload.name.split(" ").join("."),
+        cognitoUsername: user.idToken.payload["cognito:username"],
+      };
+      await API.graphql({
+        query: createLike,
+        variables: { input: like },
+      });
+    }
+  };
+
   return (
     <div className="post">
       <div className="post-header">
@@ -62,10 +116,18 @@ function Post({ id, profileImage, username, imagePosted, caption }) {
       <img src={imagePosted} alt="" />
       {user && (
         <div className="post-icons">
-          <AiOutlineHeart />
+          {hasLiked ? (
+            <AiFillHeart className="heart-red" onClick={likePost} />
+          ) : (
+            <AiOutlineHeart onClick={likePost} />
+          )}
+
           <AiOutlineComment />
           <HiOutlinePaperAirplane />
         </div>
+      )}
+      {likes.length > 0 && (
+        <p className="post__total-likes">{likes.length} likes</p>
       )}
 
       <div className="post-description">
@@ -92,7 +154,11 @@ function Post({ id, profileImage, username, imagePosted, caption }) {
             value={addComment}
             onChange={(e) => setAddComment(e.target.value)}
           />
-          <button type="submit" onClick={submitComment}>
+          <button
+            type="submit"
+            disabled={!addComment.trim()}
+            onClick={submitComment}
+          >
             Post
           </button>
         </form>

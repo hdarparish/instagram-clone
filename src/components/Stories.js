@@ -18,7 +18,11 @@ function Stories() {
     <div className="stories">
       {userStories.length > 0 &&
         userStories.map((user) => (
-          <Story username={user.username} profileImage={Avatar} key={user.id} />
+          <Story
+            username={user.username}
+            profileImage={`https://i.pravatar.cc/150?img=${user.id}`}
+            key={user.id}
+          />
         ))}
     </div>
   );

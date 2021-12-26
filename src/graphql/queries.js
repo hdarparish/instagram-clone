@@ -9,7 +9,6 @@ export const getPost = /* GraphQL */ `
       caption
       profileImage
       image
-      likes
       createdAt
       updatedAt
       comments {
@@ -18,6 +17,17 @@ export const getPost = /* GraphQL */ `
           postID
           username
           content
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      likes {
+        items {
+          id
+          postID
+          username
+          cognitoUsername
           createdAt
           updatedAt
         }
@@ -39,10 +49,12 @@ export const listPosts = /* GraphQL */ `
         caption
         profileImage
         image
-        likes
         createdAt
         updatedAt
         comments {
+          nextToken
+        }
+        likes {
           nextToken
         }
       }
@@ -65,10 +77,12 @@ export const getComment = /* GraphQL */ `
         caption
         profileImage
         image
-        likes
         createdAt
         updatedAt
         comments {
+          nextToken
+        }
+        likes {
           nextToken
         }
       }
@@ -95,7 +109,61 @@ export const listComments = /* GraphQL */ `
           caption
           profileImage
           image
-          likes
+          createdAt
+          updatedAt
+        }
+      }
+      nextToken
+    }
+  }
+`;
+export const getLike = /* GraphQL */ `
+  query GetLike($id: ID!) {
+    getLike(id: $id) {
+      id
+      postID
+      username
+      cognitoUsername
+      createdAt
+      updatedAt
+      post {
+        id
+        username
+        caption
+        profileImage
+        image
+        createdAt
+        updatedAt
+        comments {
+          nextToken
+        }
+        likes {
+          nextToken
+        }
+      }
+    }
+  }
+`;
+export const listLikes = /* GraphQL */ `
+  query ListLikes(
+    $filter: ModelLikeFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listLikes(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        postID
+        username
+        cognitoUsername
+        createdAt
+        updatedAt
+        post {
+          id
+          username
+          caption
+          profileImage
+          image
           createdAt
           updatedAt
         }

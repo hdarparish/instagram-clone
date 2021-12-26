@@ -13,7 +13,7 @@ type Post
   profileImage: String!
   image: String!
   comments: [Comment] @connection(keyName: "byPost", fields: ["id"])
-  likes: String
+  likes: [Like] @connection(keyName: "byPost", fields: ["id"])
 }
 type Comment
   @model
@@ -30,4 +30,20 @@ type Comment
   post: Post @connection(fields: ["postID"])
   username: String!
   content: String!
+}
+type Like
+  @model
+  @auth(
+    rules: [
+      { allow: owner }
+      { allow: private }
+      { allow: public, operations: [read] }
+    ]
+  )
+  @key(name: "byPost", fields: ["postID"]) {
+  id: ID!
+  postID: ID!
+  post: Post @connection(fields: ["postID"])
+  username: String!
+  cognitoUsername: String!
 }
