@@ -31,14 +31,17 @@ function Suggestions() {
       </div>
       <div>
         <p className="suggestions__text-grey">Suggestions For You</p>
-        {userSuggestions.map((user) => (
-          <div className="suggestions-user" key={user.id}>
+        {userSuggestions.map((suggestion) => (
+          <div className="suggestions-user" key={suggestion.id}>
             <div>
-              <img src={Avatar} alt="profile" />
+              <img
+                src={`https://i.pravatar.cc/150?img=${suggestion.id}`}
+                alt="profile"
+              />
             </div>
             <div className="user-details">
-              <p className="user-details__username">{user.username}</p>
-              <p className="user-details__company">{user.company.name}</p>
+              <p className="user-details__username">{suggestion.username}</p>
+              <p className="user-details__company">{suggestion.company.name}</p>
             </div>
 
             <button>Follow</button>

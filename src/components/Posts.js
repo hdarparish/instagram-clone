@@ -29,7 +29,6 @@ const userPosts = [
 
 function Posts() {
   const [postsList, setPostsList] = useState(null);
-  const db = Storage.get();
 
   useEffect(() => {
     (async () => {
@@ -54,7 +53,7 @@ function Posts() {
       );
     })();
   }, []);
-  console.log(postsList);
+
   return (
     <div className="posts">
       {postsList &&

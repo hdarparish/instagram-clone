@@ -41,6 +41,16 @@
   }
 }
 
+.heart-red {
+  color: red;
+}
+
+.post__total-likes {
+  padding-left: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
 .post-description,
 .post-comments {
   padding: 0.5rem;
@@ -69,9 +79,6 @@
   }
 }
 
-.comment {
-}
-
 .post-form {
   padding: 0.5rem;
   display: flex;
@@ -96,5 +103,9 @@
     color: #0095f6;
     background-color: #ffffff;
     font-weight: 600;
+    &:disabled {
+      color: #71bff3;
+      cursor: auto;
+    }
   }
 }

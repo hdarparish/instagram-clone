@@ -12,7 +12,6 @@ export const createPost = /* GraphQL */ `
       caption
       profileImage
       image
-      likes
       createdAt
       updatedAt
       comments {
@@ -21,6 +20,17 @@ export const createPost = /* GraphQL */ `
           postID
           username
           content
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      likes {
+        items {
+          id
+          postID
+          username
+          cognitoUsername
           createdAt
           updatedAt
         }
@@ -40,7 +50,6 @@ export const updatePost = /* GraphQL */ `
       caption
       profileImage
       image
-      likes
       createdAt
       updatedAt
       comments {
@@ -49,6 +58,17 @@ export const updatePost = /* GraphQL */ `
           postID
           username
           content
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      likes {
+        items {
+          id
+          postID
+          username
+          cognitoUsername
           createdAt
           updatedAt
         }
@@ -68,7 +88,6 @@ export const deletePost = /* GraphQL */ `
       caption
       profileImage
       image
-      likes
       createdAt
       updatedAt
       comments {
@@ -77,6 +96,17 @@ export const deletePost = /* GraphQL */ `
           postID
           username
           content
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      likes {
+        items {
+          id
+          postID
+          username
+          cognitoUsername
           createdAt
           updatedAt
         }
@@ -103,10 +133,12 @@ export const createComment = /* GraphQL */ `
         caption
         profileImage
         image
-        likes
         createdAt
         updatedAt
         comments {
+          nextToken
+        }
+        likes {
           nextToken
         }
       }
@@ -131,10 +163,12 @@ export const updateComment = /* GraphQL */ `
         caption
         profileImage
         image
-        likes
         createdAt
         updatedAt
         comments {
+          nextToken
+        }
+        likes {
           nextToken
         }
       }
@@ -159,10 +193,102 @@ export const deleteComment = /* GraphQL */ `
         caption
         profileImage
         image
-        likes
         createdAt
         updatedAt
         comments {
+          nextToken
+        }
+        likes {
+          nextToken
+        }
+      }
+    }
+  }
+`;
+export const createLike = /* GraphQL */ `
+  mutation CreateLike(
+    $input: CreateLikeInput!
+    $condition: ModelLikeConditionInput
+  ) {
+    createLike(input: $input, condition: $condition) {
+      id
+      postID
+      username
+      cognitoUsername
+      createdAt
+      updatedAt
+      post {
+        id
+        username
+        caption
+        profileImage
+        image
+        createdAt
+        updatedAt
+        comments {
+          nextToken
+        }
+        likes {
+          nextToken
+        }
+      }
+    }
+  }
+`;
+export const updateLike = /* GraphQL */ `
+  mutation UpdateLike(
+    $input: UpdateLikeInput!
+    $condition: ModelLikeConditionInput
+  ) {
+    updateLike(input: $input, condition: $condition) {
+      id
+      postID
+      username
+      cognitoUsername
+      createdAt
+      updatedAt
+      post {
+        id
+        username
+        caption
+        profileImage
+        image
+        createdAt
+        updatedAt
+        comments {
+          nextToken
+        }
+        likes {
+          nextToken
+        }
+      }
+    }
+  }
+`;
+export const deleteLike = /* GraphQL */ `
+  mutation DeleteLike(
+    $input: DeleteLikeInput!
+    $condition: ModelLikeConditionInput
+  ) {
+    deleteLike(input: $input, condition: $condition) {
+      id
+      postID
+      username
+      cognitoUsername
+      createdAt
+      updatedAt
+      post {
+        id
+        username
+        caption
+        profileImage
+        image
+        createdAt
+        updatedAt
+        comments {
+          nextToken
+        }
+        likes {
           nextToken
         }
       }
