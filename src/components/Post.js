@@ -7,9 +7,10 @@ import {
   HiOutlineDotsHorizontal,
 } from "react-icons/hi";
 //aws
-import { Auth, API } from "aws-amplify";
+import { Auth, API, graphqlOperation } from "aws-amplify";
 import { createComment, createLike, deleteLike } from "../graphql/mutations";
 import * as queries from "../graphql/queries";
+import * as subscriptions from "../graphql/subscriptions";
 
 function Post({ id, profileImage, username, imagePosted, caption }) {
   const [addComment, setAddComment] = useState("");
@@ -17,6 +18,39 @@ function Post({ id, profileImage, username, imagePosted, caption }) {
   const [likes, setLikes] = useState([]);
   const [hasLiked, setHasLiked] = useState(false);
   const [user, setUser] = useState(false);
+  let createLikeSubscription;
+  let deleteLikeSubscription;
+  let newCommentSubscription;
+
+  //check if the user is authenticated
+  useEffect(() => {
+    Auth.currentSession()
+      .then((user) => setUser(user))
+      .catch(() => {
+        createLikeSubscription.unsubscribe();
+        deleteLikeSubscription.unsubscribe();
+        newCommentSubscription.unsubscribe();
+      });
+  }, []);
+
+  //check if the user has liked the post
+  useEffect(() => {
+    setHasLiked(
+      likes.findIndex(
+        (like) =>
+          like.cognitoUsername === user?.idToken?.payload["cognito:username"] &&
+          like.postID === id
+      ) !== -1
+    );
+  }, [id, likes]);
+
+  //get the likes and comments for the post
+  useEffect(() => {
+    getLikes();
+    getComments();
+    postLikesSubscription();
+    postCommentsSubscription();
+  }, []);
 
   //save the comment
   const submitComment = async (e) => {
@@ -33,47 +67,24 @@ function Post({ id, profileImage, username, imagePosted, caption }) {
     setAddComment("");
   };
 
-  //check if the user is authenticated
-  useEffect(() => {
-    Auth.currentSession()
-      .then((user) => setUser(user))
-      .catch(() => console.log("Not signed in"));
-  }, []);
+  const getLikes = async () => {
+    const { data } = await API.graphql({
+      query: queries.listLikes,
+      authMode: "API_KEY",
+    });
+    //filter the comments by postID
+    setLikes(data.listLikes.items.filter((like) => like.postID === id));
+  };
 
   //get the comments for the post
-  useEffect(() => {
-    (async () => {
-      const { data } = await API.graphql({
-        query: queries.listComments,
-        authMode: "API_KEY",
-      });
-      //filter the comments by postID
-      setComments(data.listComments.items.filter((item) => item.postID === id));
-    })();
-  }, []);
-
-  //get the likes for the post
-  useEffect(() => {
-    (async () => {
-      const { data } = await API.graphql({
-        query: queries.listLikes,
-        authMode: "API_KEY",
-      });
-      //filter the comments by postID
-      setLikes(data.listLikes.items.filter((like) => like.postID === id));
-    })();
-  }, [comments]);
-
-  //check if the user has liked the post
-  useEffect(() => {
-    setHasLiked(
-      likes.findIndex(
-        (like) =>
-          like.cognitoUsername === user?.idToken?.payload["cognito:username"] &&
-          like.postID === id
-      ) !== -1
-    );
-  }, [likes]);
+  const getComments = async () => {
+    const { data } = await API.graphql({
+      query: queries.listComments,
+      authMode: "API_KEY",
+    });
+    //filter the comments by postID
+    setComments(data.listComments.items.filter((item) => item.postID === id));
+  };
 
   const likePost = async () => {
     //if the user has already liked the post, then unlike
@@ -104,6 +115,33 @@ function Post({ id, profileImage, username, imagePosted, caption }) {
         variables: { input: like },
       });
     }
+  };
+
+  const postLikesSubscription = async () => {
+    createLikeSubscription = await API.graphql(
+      graphqlOperation(subscriptions.onCreateLike)
+    ).subscribe({
+      next: async () => {
+        await getLikes();
+      },
+    });
+    deleteLikeSubscription = await API.graphql(
+      graphqlOperation(subscriptions.onDeleteLike)
+    ).subscribe({
+      next: async () => {
+        await getLikes();
+      },
+    });
+  };
+
+  const postCommentsSubscription = async () => {
+    newCommentSubscription = await API.graphql(
+      graphqlOperation(subscriptions.onCreateComment)
+    ).subscribe({
+      next: async () => {
+        await getComments();
+      },
+    });
   };
 
   return (

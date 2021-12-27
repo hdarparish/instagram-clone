@@ -17,7 +17,6 @@ function Modal() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [viewSelectedFile, setViewSelectedFile] = useState(null);
   const [fileName, setFileName] = useState(null);
-  const [loading, setLoading] = useState(false);
   const [user, setUser] = useState(null);
 
   const fileRef = useRef(null);
@@ -102,7 +101,6 @@ function Modal() {
 
     const s3Image = await Storage.get(file.name);
     console.log(s3Image); */
-    console.log(captionRef.current.value);
   };
 
   return (

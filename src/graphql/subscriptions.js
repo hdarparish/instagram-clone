@@ -214,6 +214,7 @@ export const onCreateLike = /* GraphQL */ `
     }
   }
 `;
+
 export const onUpdateLike = /* GraphQL */ `
   subscription OnUpdateLike {
     onUpdateLike {

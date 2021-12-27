@@ -6,7 +6,7 @@ import { HiHome, HiOutlinePaperAirplane, HiSearch } from "react-icons/hi";
 import { AiOutlineHeart } from "react-icons/ai";
 import { BsPlusSquare } from "react-icons/bs";
 //aws
-import { Auth, Storage } from "aws-amplify";
+import { Auth } from "aws-amplify";
 //redux
 import { useDispatch } from "react-redux";
 
