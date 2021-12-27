@@ -2,8 +2,9 @@ import Post from "./Post";
 import Avatar from "../img/img_avatar.png";
 import { useEffect, useState } from "react";
 //aws
-import { API, Storage } from "aws-amplify";
+import { API, Auth, Storage, graphqlOperation } from "aws-amplify";
 import * as queries from "../graphql/queries";
+import * as subscriptions from "../graphql/subscriptions";
 
 const userPosts = [
   {
@@ -28,31 +29,55 @@ const userPosts = [
 ];
 
 function Posts() {
-  const [postsList, setPostsList] = useState(null);
+  const [postsList, setPostsList] = useState([]);
+  const [user, setUser] = useState(false);
+  let newPostSubscription;
+  //const subscription = API.graphql(subscriptions.onCreatePost);
+
+  //check if the user is authenticated
+  useEffect(() => {
+    Auth.currentSession()
+      .then((user) => setUser(user))
+      .catch(() => newPostSubscription.unsubscribe());
+  }, []);
 
   useEffect(() => {
-    (async () => {
-      const { data } = await API.graphql({
-        query: queries.listPosts,
-        authMode: "API_KEY",
-      });
-      const posts = await Promise.all(
-        data.listPosts.items.map(async (post) => {
-          const image = await Storage.get(post.image);
-          post.s3Image = image;
-          return post;
-        })
-      );
-
-      //sort the array of posts by creation datetime
-      setPostsList(
-        posts.sort(
-          (firstPost, secondPost) =>
-            new Date(secondPost.createdAt) - new Date(firstPost.createdAt)
-        )
-      );
-    })();
+    getPosts();
+    allPostsSubscription();
   }, []);
+
+  const getPosts = async () => {
+    const { data } = await API.graphql({
+      query: queries.listPosts,
+      authMode: "API_KEY",
+    });
+    const posts = await Promise.all(
+      data.listPosts.items.map(async (post) => {
+        const image = await Storage.get(post.image);
+        post.s3Image = image;
+        return post;
+      })
+    );
+
+    //sort the array of posts by creation datetime
+    setPostsList(
+      posts.sort(
+        (firstPost, secondPost) =>
+          new Date(secondPost.createdAt) - new Date(firstPost.createdAt)
+      )
+    );
+  };
+
+  //if a new post is created update the post list
+  const allPostsSubscription = async () => {
+    newPostSubscription = await API.graphql(
+      graphqlOperation(subscriptions.onCreatePost)
+    ).subscribe({
+      next: async () => {
+        await getPosts();
+      },
+    });
+  };
 
   return (
     <div className="posts">
