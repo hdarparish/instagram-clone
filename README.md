@@ -1,4 +1,4 @@
-# Netflix Clone
+# Instagram Clone
 
 ## Description
 
