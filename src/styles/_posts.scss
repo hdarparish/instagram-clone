@@ -1,5 +1,8 @@
 .posts {
   max-width: 30rem;
-  margin-top: 7.5rem;
+  margin-top: 1.5rem;
   // border: 1.5px solid rgb(219, 217, 217);
+  @media (max-width: 510px) {
+    margin-top: 7.5rem;
+  }
 }
