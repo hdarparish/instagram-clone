@@ -21,6 +21,7 @@ https://instagram-clone.hossein-darparish.com/
 - redux
 - uuid
 - faker
+- react-icons
 
 
 ### Backend
