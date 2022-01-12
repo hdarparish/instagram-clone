@@ -2,7 +2,7 @@
 
 ## Description
 
-Instagram clone website made using React. The website is connected to AWS amplify backend. The users can log-in using their google credentials. Logged in users can upload a post, like a post, and comment on post
+Instagram clone website made using React. The Frontend is connected to AWS amplify backend(authentication, API, storage). Users can log-in using their google credentials. Logged in users can upload a post, like a post, and comment on post
 
 Demo
 https://instagram-clone.hossein-darparish.com/
